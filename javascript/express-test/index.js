@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const root = require("./root");
-const user = require("./user");
+const root = require("./app/root");
+const user = require("./app/user");
 var verbose = process.env.NODE_ENV != "test";
 
 app.map = function (a, route) {

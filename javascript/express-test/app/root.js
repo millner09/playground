@@ -1,5 +1,5 @@
 exports.get = (req, res) => {
-  res.send("Hello world!");
+  res.send("Hello Node!");
 };
 
 exports.post = (req, res) => {
