@@ -1,6 +1,26 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const root = require("./root");
+const user = require("./user");
+var verbose = process.env.NODE_ENV != "test";
+
+app.map = function (a, route) {
+  route = route || "";
+  for (var key in a) {
+    switch (typeof a[key]) {
+      // { '/path': { ... }}
+      case "object":
+        app.map(a[key], route + key);
+        break;
+      // get: function(){ ... }
+      case "function":
+        if (verbose) console.log("%s %s", key, route);
+        app[key](route, a[key]);
+        break;
+    }
+  }
+};
 
 const myHelloWorldMiddleware = (req, res, next) => {
   console.log("Hello World from middleware!");
@@ -9,20 +29,15 @@ const myHelloWorldMiddleware = (req, res, next) => {
 
 app.use(myHelloWorldMiddleware);
 
-app.get("/", (req, res) => {
-  res.send("Hello world!");
-});
-
-app.post("/", function (req, res) {
-  res.send("Got a POST request");
-});
-
-app.put("/user", function (req, res) {
-  res.send("Got a PUT request at /user");
-});
-
-app.delete("/user", function (req, res) {
-  res.send("Got a DELETE request at /user");
+app.map({
+  "/": {
+    get: root.get,
+    post: root.post,
+  },
+  "/user": {
+    put: user.put,
+    delete: user.delete,
+  },
 });
 
 app.listen(port, () =>
