@@ -1,5 +1,8 @@
 // Type JavaScript here and click "Run Code" or press Ctrl + s
 
+const { SSL_OP_EPHEMERAL_RSA } = require("constants");
+const { setInterval } = require("timers");
+
 // CHALLENGE 1
 function createFunction() {
   const sayHello = () => console.log("Hello, world!");
@@ -112,38 +115,103 @@ afterCalled(); // => nothing is printed
 afterCalled(); // => 'hello' is printed
 
 // CHALLENGE 6
-function delay(func, wait) {}
+// function delay(func, wait) {
+//   let canCall = false;
+//   setTimeout(() => {
+//     canCall = true;
+//   }, wait);
+
+//   const delayedFunction = () => {
+//     if (canCall) {
+//       func();
+//     }
+//   };
+
+//   return delayedFunction;
+// }
+
+// myDelay = delay(() => console.log("hello world!"), 1000);
+// myDelay();
+
+// setTimeout(() => {
+//   myDelay();
+// }, 1000);
 
 // CHALLENGE 7
-function rollCall(names) {}
+function rollCall(names) {
+  const numNames = names.length;
+  let currentIndex = 0;
+
+  const rollCallFunction = () => {
+    if (currentIndex < numNames) {
+      const nameToReturn = names[currentIndex];
+      currentIndex++;
+      console.log(nameToReturn);
+    } else {
+      console.log("Everyone accounted for.");
+    }
+  };
+
+  return rollCallFunction;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const rollCaller = rollCall(['Victoria', 'Juan', 'Ruth'])
-// rollCaller() // => should log 'Victoria'
-// rollCaller() // => should log 'Juan'
-// rollCaller() // => should log 'Ruth'
-// rollCaller() // => should log 'Everyone accounted for'
+const rollCaller = rollCall(["Victoria", "Juan", "Ruth"]);
+rollCaller(); // => should log 'Victoria'
+rollCaller(); // => should log 'Juan'
+rollCaller(); // => should log 'Ruth'
+rollCaller(); // => should log 'Everyone accounted for'
 
 // CHALLENGE 8
-function saveOutput(func, magicWord) {}
+function saveOutput(func, magicWord) {
+  const returnObj = {};
+  const myFunc = (value) => {
+    if (value === magicWord) {
+      return returnObj;
+    } else {
+      const calculatedVal = func(value);
+      returnObj[value] = calculatedVal;
+      return calculatedVal;
+    }
+  };
+
+  return myFunc;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const multiplyBy2 = function(num) { return num * 2; };
-// const multBy2AndLog = saveOutput(multiplyBy2, 'boo');
-// console.log(multBy2AndLog(2)); // => should log 4
-// console.log(multBy2AndLog(9)); // => should log 18
-// console.log(multBy2AndLog('boo')); // => should log { 2: 4, 9: 18 }
+const multiplyBy2 = function (num) {
+  return num * 2;
+};
+const multBy2AndLog = saveOutput(multiplyBy2, "boo");
+console.log(multBy2AndLog(2)); // => should log 4
+console.log(multBy2AndLog(9)); // => should log 18
+console.log(multBy2AndLog("boo")); // => should log { 2: 4, 9: 18 }
 
 // CHALLENGE 9
-function cycleIterator(array) {}
+function cycleIterator(array) {
+  let currentIndex = 0;
+
+  const cycler = () => {
+    const returnValue = array[currentIndex];
+    currentIndex++;
+
+    if (currentIndex == array.length) {
+      currentIndex = 0;
+    }
+
+    return returnValue;
+  };
+
+  return cycler;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const threeDayWeekend = ['Fri', 'Sat', 'Sun'];
-// const getDay = cycleIterator(threeDayWeekend);
-// console.log(getDay()); // => should log 'Fri'
-// console.log(getDay()); // => should log 'Sat'
-// console.log(getDay()); // => should log 'Sun'
-// console.log(getDay()); // => should log 'Fri'
+const threeDayWeekend = ["Fri", "Sat", "Sun"];
+const getDay = cycleIterator(threeDayWeekend);
+console.log(getDay()); // => should log 'Fri'
+console.log(getDay()); // => should log 'Sat'
+console.log(getDay()); // => should log 'Sun'
+console.log(getDay()); // => should log 'Fri'
 
 // CHALLENGE 10
 function defineFirstArg(func, arg) {}
