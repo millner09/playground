@@ -229,64 +229,141 @@ const subFrom20 = defineFirstArg(subtract, 20);
 console.log(subFrom20(5)); // => should log 15
 
 // CHALLENGE 11
-function dateStamp(func) {}
+function dateStamp(func) {
+  const myFunc = (value) => {
+    const result = {};
+    result.date = Date.now();
+    result.output = func(value);
+    return result;
+  };
+
+  return myFunc;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const stampedMultBy2 = dateStamp(n => n * 2);
-// console.log(stampedMultBy2(4)); // => should log { date: (today's date), output: 8 }
-// console.log(stampedMultBy2(6)); // => should log { date: (today's date), output: 12 }
+const stampedMultBy2 = dateStamp((n) => n * 2);
+console.log(stampedMultBy2(4)); // => should log { date: (today's date), output: 8 }
+console.log(stampedMultBy2(6)); // => should log { date: (today's date), output: 12 }
 
 // CHALLENGE 12
-function censor() {}
+function censor() {
+  const stringSwapArray = [];
+  const myCensor = (...strings) => {
+    if (strings.length === 1) {
+      let returnString = strings[0];
+
+      stringSwapArray.forEach((swapObj) => {
+        returnString = returnString.replace(swapObj.from, swapObj.to);
+      });
+
+      return returnString;
+    } else {
+      // store the new swapper
+      const swap = {};
+      swap.from = strings[0];
+      swap.to = strings[1];
+      stringSwapArray.push(swap);
+    }
+  };
+
+  return myCensor;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const changeScene = censor();
-// changeScene('dogs', 'cats');
-// changeScene('quick', 'slow');
-// console.log(changeScene('The quick, brown fox jumps over the lazy dogs.')); // => should log 'The slow, brown fox jumps over the lazy cats.'
+const changeScene = censor();
+changeScene("dogs", "cats");
+changeScene("quick", "slow");
+console.log(changeScene("The quick, brown fox jumps over the lazy dogs.")); // => should log 'The slow, brown fox jumps over the lazy cats.'
 
 // CHALLENGE 13
-function createSecretHolder(secret) {}
+function createSecretHolder(secret) {
+  const secretHolder = {};
+
+  secretHolder.getSecret = () => {
+    return secret;
+  };
+
+  secretHolder.setSecret = (value) => (secret = value);
+
+  return secretHolder;
+}
 
 // /*** Uncomment these to check your work! ***/
-// obj = createSecretHolder(5)
-// obj.getSecret() // => returns 5
-// obj.setSecret(2)
-// obj.getSecret() // => returns 2
+obj = createSecretHolder(5);
+console.log(obj.getSecret()); // => returns 5
+obj.setSecret(2);
+console.log(obj.getSecret()); // => returns 2
 
 // CHALLENGE 14
-function callTimes() {}
+function callTimes() {
+  let numTimesCalled = 0;
+
+  const myFunc = () => {
+    numTimesCalled++;
+    return numTimesCalled;
+  };
+
+  return myFunc;
+}
 
 // /*** Uncomment these to check your work! ***/
-// let myNewFunc1 = callTimes();
-// let myNewFunc2 = callTimes();
-// myNewFunc1(); // => 1
-// myNewFunc1(); // => 2
-// myNewFunc2(); // => 1
-// myNewFunc2(); // => 2
+let myNewFunc1 = callTimes();
+let myNewFunc2 = callTimes();
+console.log(myNewFunc1()); // => 1
+console.log(myNewFunc1()); // => 2
+console.log(myNewFunc2()); // => 1
+console.log(myNewFunc2()); // => 2
 
 // CHALLENGE 15
-function russianRoulette(num) {}
+function russianRoulette(num) {
+  let currentIndex = 0;
+  const clickClickBang = () => {
+    currentIndex++;
+    if (currentIndex < num) {
+      return "click";
+    } else if (currentIndex == num) {
+      return "bang";
+    } else {
+      return "reload to play again";
+    }
+  };
+
+  return clickClickBang;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const play = russianRoulette(3);
-// console.log(play()); // => should log 'click'
-// console.log(play()); // => should log 'click'
-// console.log(play()); // => should log 'bang'
-// console.log(play()); // => should log 'reload to play again'
-// console.log(play()); // => should log 'reload to play again'
+const play = russianRoulette(3);
+console.log(play()); // => should log 'click'
+console.log(play()); // => should log 'click'
+console.log(play()); // => should log 'bang'
+console.log(play()); // => should log 'reload to play again'
+console.log(play()); // => should log 'reload to play again'
 
 // CHALLENGE 16
-function average() {}
+function average() {
+  let numNumbersPassed = 0;
+  let total = 0;
+  const myAverager = (...values) => {
+    if (values.length == 0) {
+      return numNumbersPassed == 0 ? 0 : total / numNumbersPassed;
+    } else {
+      total += values[0];
+      numNumbersPassed++;
+      return total / numNumbersPassed;
+    }
+  };
+
+  return myAverager;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const avgSoFar = average();
-// console.log(avgSoFar()); // => should log 0
-// console.log(avgSoFar(4)); // => should log 4
-// console.log(avgSoFar(8)); // => should log 6
-// console.log(avgSoFar()); // => should log 6
-// console.log(avgSoFar(12)); // => should log 8
-// console.log(avgSoFar()); // => should log 8
+const avgSoFar = average();
+console.log(avgSoFar()); // => should log 0
+console.log(avgSoFar(4)); // => should log 4
+console.log(avgSoFar(8)); // => should log 6
+console.log(avgSoFar()); // => should log 6
+console.log(avgSoFar(12)); // => should log 8
+console.log(avgSoFar()); // => should log 8
 
 // CHALLENGE 17
 function makeFuncTester(arrOfTests) {}
