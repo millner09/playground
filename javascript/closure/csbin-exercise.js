@@ -214,12 +214,19 @@ console.log(getDay()); // => should log 'Sun'
 console.log(getDay()); // => should log 'Fri'
 
 // CHALLENGE 10
-function defineFirstArg(func, arg) {}
+function defineFirstArg(func, arg) {
+  const myFunc = (value) => {
+    return func(arg, value);
+  };
+  return myFunc;
+}
 
 // /*** Uncomment these to check your work! ***/
-// const subtract = function(big, small) { return big - small; };
-// const subFrom20 = defineFirstArg(subtract, 20);
-// console.log(subFrom20(5)); // => should log 15
+const subtract = function (big, small) {
+  return big - small;
+};
+const subFrom20 = defineFirstArg(subtract, 20);
+console.log(subFrom20(5)); // => should log 15
 
 // CHALLENGE 11
 function dateStamp(func) {}
