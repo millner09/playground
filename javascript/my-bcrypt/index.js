@@ -50,3 +50,5 @@ const res = User.updateOne(
 );
 res.n; // Number of documents matched
 res.nModified; // Number of documents modified
+
+console.log("Hello world!")
