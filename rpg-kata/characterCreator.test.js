@@ -65,3 +65,14 @@ test("heal: Dead characters cannot be healed", () => {
     character.heal(1);
   }).toThrow();
 });
+
+test("heal: cannot raise health above 1000", () => {
+  // Arrange
+  const character = characterCreator.createCharacter();
+
+  // Act
+  character.heal(2000);
+
+  // Assert
+  expect(character.getCurrentHealth()).toBe(1000);
+});
