@@ -1,78 +1,92 @@
 const characterCreator = require("./character");
 
 test("createCharacter: health defaults to 1000", () => {
-  const character = characterCreator.createCharacter();
+  const character = characterCreator.createCharacter(1);
   expect(character.getCurrentHealth()).toBe(1000);
 });
 
 test("createCharacter: level defaults to 1", () => {
-  const character = characterCreator.createCharacter();
+  const character = characterCreator.createCharacter(1);
   expect(character.getCurrentLevel()).toBe(1);
 });
 
 test("createCharacter: isAlive defaults to true", () => {
-  const character = characterCreator.createCharacter();
+  const character = characterCreator.createCharacter(1);
   expect(character.isCharacterAlive()).toBe(true);
 });
 
 test("damage: Should subtract damage amount from health", () => {
   // Arrange
-  const character = characterCreator.createCharacter();
+  const attacker = characterCreator.createCharacter(1);
+  const defender = characterCreator.createCharacter(2);
   const damage = 10;
-  const expectedHealth = character.getCurrentHealth() - damage;
+  const expectedHealth = defender.getCurrentHealth() - damage;
 
   // Act
-  character.damage(damage);
+  attacker.damageCharacter(defender, damage);
 
   //Assert
-  expect(character.getCurrentHealth()).toBe(expectedHealth);
+  expect(defender.getCurrentHealth()).toBe(expectedHealth);
 });
 
 test("damage: Health should be set to 0 and isAlive to false when damage equal to health", () => {
   // Arrange
-  const character = characterCreator.createCharacter();
-  const damage = character.getCurrentHealth();
+  const attacker = characterCreator.createCharacter(1);
+  const defender = characterCreator.createCharacter(2);
+  const damage = defender.getCurrentHealth();
 
   // Act
-  character.damage(damage);
+  attacker.damageCharacter(defender, damage);
 
   // Assert
-  expect(character.getCurrentHealth()).toBe(0);
-  expect(character.isCharacterAlive()).toBe(false);
+  expect(defender.getCurrentHealth()).toBe(0);
+  expect(defender.isCharacterAlive()).toBe(false);
 });
 
 test("damage: Health should be set to 0 and isAlive to false when damage greater than health", () => {
   // Arrange
-  const character = characterCreator.createCharacter();
-  const damage = character.getCurrentHealth() + 1;
+  const attacker = characterCreator.createCharacter(1);
+  const defender = characterCreator.createCharacter(2);
+  const damage = defender.getCurrentHealth() + 1;
 
   // Act
-  character.damage(damage);
+  attacker.damageCharacter(defender, damage);
 
   // Assert
-  expect(character.getCurrentHealth()).toBe(0);
-  expect(character.isCharacterAlive()).toBe(false);
+  expect(defender.getCurrentHealth()).toBe(0);
+  expect(defender.isCharacterAlive()).toBe(false);
 });
 
 test("heal: Dead characters cannot be healed", () => {
   // Arrange
-  const character = characterCreator.createCharacter();
-  const damage = character.getCurrentHealth() + 1;
-  character.damage(damage);
+  const attacker = characterCreator.createCharacter(1);
+  const defender = characterCreator.createCharacter(2);
+  const damage = defender.getCurrentHealth() + 1;
+  attacker.damageCharacter(defender, damage);
 
   // Assert
   expect(() => {
-    character.heal(1);
+    defender.heal(1);
   }).toThrow();
 });
 
 test("heal: cannot raise health above 1000", () => {
   // Arrange
-  const character = characterCreator.createCharacter();
+  const character = characterCreator.createCharacter(1);
 
   // Act
   character.heal(2000);
 
   // Assert
   expect(character.getCurrentHealth()).toBe(1000);
+});
+
+test("damageCharacter: A character cannot Deal Damage to itself", () => {
+  // Arrange
+  const character = characterCreator.createCharacter(1);
+
+  // Assert
+  expect(() => {
+    character.damageCharacter(character, 1);
+  }).toThrow();
 });
