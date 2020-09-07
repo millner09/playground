@@ -21,8 +21,8 @@ exports.createCharacter = (newCharacterId) => {
       return isAlive;
     },
 
-    // Using underscore to declare "private" for outside users
-    // TODO: Research better way of handling this so that outside
+    // Using underscore to declare "private" for external users
+    // TODO: Research better way of handling this so that external
     //      users of this object cannot directly call _damage()
     _damage: (damageAmount) => {
       if (damageAmount >= health) {
