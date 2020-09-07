@@ -1,11 +1,11 @@
-cexports.createCharacter = (newCharacterId) => {
+exports.createCharacter = (newCharacterId) => {
   const id = newCharacterId;
   let health = 1000;
   let level = 1;
   let isAlive = true;
 
   return {
-a    getId: () => {
+    getId: () => {
       return id;
     },
 
